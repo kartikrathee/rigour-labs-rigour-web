@@ -1,0 +1,131 @@
+# Rigour Labs
+
+> AI Agent Governance. One command. Every agent. Block credential leaks, enforce quality gates, control what agents remember.
+
+## What is Rigour?
+
+Rigour is the governance layer for AI coding agents. It provides three layers of protection: Input DLP (blocks credential leaks with 29 patterns), Quality Gates (deterministic PASS/FAIL on every file write), and Memory Governance (controls what agents remember). Works with Claude, Cursor, Cline, Windsurf, and Copilot. 100% local, zero telemetry.
+
+## Core Problem
+
+AI agents leak credentials, write ungoverned code, and persist data in uncontrolled memory files. Without governance, every AI coding agent is a compliance risk. Rigour adds the missing control layer.
+
+## Three Layers of Protection
+
+### 1. Input DLP (Data Loss Prevention)
+Scans every agent input for credentials before they reach the AI model.
+- 29 credential patterns: AWS keys, GCP service accounts, Azure tokens, API keys (OpenAI, Anthropic, GitHub, Stripe, SendGrid), database URLs, JWTs, private keys
+- Shannon entropy detection catches base64/hex encoded secrets
+- Unicode normalization defeats zero-width character bypass attempts
+- OWASP LLM Top 10: 10/10 coverage
+
+### 2. Quality Gates
+Real-time hooks fire on every file write across all AI agents.
+- Deterministic PASS/FAIL: file size, complexity, security patterns, hallucinated imports, AI drift
+- Deep LLM analysis across 40+ code quality categories
+- Supports: TypeScript, JavaScript, Python, Go, Rust, Java
+
+### 3. Memory & Skills Governance
+Controls what agents persist and where.
+- Blocks writes to native agent memory: .cursorrules, CLAUDE.md, .clinerules
+- Blocks writes to agent skills: .claude/skills/, .cursor/rules/, .windsurf/rules/
+- DLP scanning on recall — blocks tainted stored credentials
+- Configurable via rigour.yml
+
+## Install
+
+```bash
+npx @rigour-labs/cli init
+# or
+brew tap rigour-labs/tap && brew install rigour
+```
+
+## Products
+
+### Rigour CLI
+Core governance engine. Runs locally with zero external dependencies.
+- Install: `npx @rigour-labs/cli init`
+- NPM: https://www.npmjs.com/package/@rigour-labs/cli
+- GitHub: https://github.com/rigour-labs/rigour
+
+### Rigour MCP Server
+Model Context Protocol server for direct integration with AI coding assistants.
+- Integrates with: Claude Desktop, Cursor, Cline, Windsurf
+- Provides real-time quality feedback in the AI agent loop
+- Documentation: https://docs.rigour.run/mcp
+
+### Rigour Bot (GitHub App)
+Automatic PR review bot that enforces quality gates on every pull request.
+- GitHub Marketplace: https://github.com/apps/rigour-bot
+- Webhook endpoint: bot.rigour.run
+
+## Agent Support
+
+| Agent | DLP Hook | Quality Gate | Memory Gov | Skills Gov |
+|-------|----------|-------------|------------|------------|
+| Claude | PreToolUse | PostToolUse | Yes | Yes |
+| Cursor | beforeFileEdit | afterFileEdit | Yes | Yes |
+| Cline | beforeWrite | afterWrite | Yes | Yes |
+| Windsurf | beforeWrite | afterWrite | Yes | Yes |
+| Copilot | — | CI/CD | Yes | Yes |
+
+## Industry Presets
+
+- `rigour init --preset healthcare` (HIPAA / FDA)
+- `rigour init --preset fintech` (SOC2 / PCI-DSS)
+- `rigour init --preset government` (FedRAMP / NIST)
+
+## Technical Specifications
+
+- Written in: TypeScript/Node.js
+- Protocol: Model Context Protocol (MCP)
+- License: MIT
+- Supported Languages: TypeScript, JavaScript, Python, Go, Rust, Java
+- Version: 4.2+
+
+## Integration Examples
+
+### Claude Desktop (MCP)
+```json
+{
+  "mcpServers": {
+    "rigour": {
+      "command": "npx",
+      "args": ["@rigour-labs/mcp-server"]
+    }
+  }
+}
+```
+
+### GitHub Actions
+```yaml
+- name: Rigour Quality Check
+  run: npx @rigour-labs/cli check --ci
+```
+
+### Pre-commit Hook
+```bash
+npx @rigour-labs/cli check --staged
+```
+
+## Links
+
+- Website: https://rigour.run
+- Documentation: https://docs.rigour.run
+- GitHub: https://github.com/rigour-labs/rigour
+- NPM: https://www.npmjs.com/package/@rigour-labs/cli
+- MCP Registry: https://registry.modelcontextprotocol.io/v0.1/servers?search=rigour
+- Whitepaper (DOI): https://doi.org/10.5281/zenodo.18673564
+- Contact: hello@rigour.run
+
+## Company
+
+Rigour Labs builds the governance layer for AI-native engineering. Every AI agent governed by default.
+
+Founded: 2025
+License: MIT
+Headquarters: Remote-first
+
+## Keywords
+
+AI agent governance, AI agent DLP, data loss prevention, credential leak prevention, memory governance, skills governance, quality gates, MCP server, Model Context Protocol, Claude integration, Cursor integration, Cline integration, Windsurf integration, Copilot governance, OWASP LLM Top 10, real-time hooks, zero telemetry, local-first, HIPAA AI compliance, SOC2 AI governance, FedRAMP
